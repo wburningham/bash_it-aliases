@@ -31,7 +31,9 @@ alias desk='cd ~/Desktop'
 #get dhcp server address http://automatica.com.au/?p=463
 #alias dhcp="ipconfig getoption en0 router"
 
+# Flush Directory Service cache
 alias flushdns='dscacheutil -flushcache'
+alias flush="dscacheutil -flushcache"
 
 #http://goo.gl/HbYyb
 function ip(){ 
@@ -65,7 +67,11 @@ ip; echo ""; mac;
 alias profile="vim ~/.bash_profile"
 alias www='cd /Library/WebServer/Documents'
 alias msg="vim Dropbox/Shared\ Folders/RAW/.msg"
+# Recursively delete `.DS_Store` files
+alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
 
+# File size
+alias fs="stat -f \"%z bytes\""
 
 
 # http://bit.ly/igCErk
