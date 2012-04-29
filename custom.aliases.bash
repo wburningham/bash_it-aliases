@@ -1,3 +1,8 @@
+source /usr/local/bin/virtualenvwrapper.sh
+PATH=$PATH:/usr/local/mysql/bin
+export DYLD_LIBRARY_PATH=/usr/local/mysql/lib/
+
+
 #-------------------------------------------------------------------
 #     Navigation Aliases 
 #-------------------------------------------------------------------
@@ -28,25 +33,27 @@ alias flushdns='dscacheutil -flushcache'
 
 #http://goo.gl/HbYyb
 function ip(){ 
-	ipconfig getpacket en0 | grep "yiaddr" | sed "s/yiaddr/ip/";
+	ipconfig getpacket en0 | grep "yiaddr" | sed "s/yiaddr/ip/" | tr -d '\n';
 }
 function cpip(){
-	ip; ipconfig getpacket en0 | grep "yiaddr" | sed "s/yiaddr = //" | pbcopy;
+	ip; printf " (copied to clipboard)"; ipconfig getpacket en0 | grep "yiaddr" | sed "s/yiaddr = //" | tr -d '\n' | pbcopy;
 }
 function mac(){ 
-	ipconfig getpacket en0 | grep "chaddr" | sed "s/chaddr/mac/"; 
+	ipconfig getpacket en0 | grep "chaddr" | sed "s/chaddr/mac/" | tr -d '\n'; 
 }
 function cpmac(){ 
-	mac; ipconfig getpacket en0 | grep "chaddr" | sed "s/chaddr = //" | pbcopy; 
+mac; printf " (copied to clipboard)"; ipconfig getpacket en0 | grep "chaddr" | sed "s/chaddr = //" | tr -d '\n' | pbcopy; 
 }
 function dns(){ ipconfig getpacket en0 | grep "domain_name_server" | sed "s/domain_name_server/DNS/"; }
 function dhcp(){ ipconfig getpacket en0 | grep "router" | sed "s/router/DHCP/"; }
 
 function net() { ip; mac; dns; dhcp; }
 
+
+function capstone() { echo "192.168.246.5, SSH=44625, HTTP=44685, HTTPS=446485, MySQL=44635"; }
+
 # print the ip and mac address on terminal startup
 ip; echo ""; mac;
-
 
 
 #-------------------------------------------------------------------
@@ -56,9 +63,10 @@ ip; echo ""; mac;
 alias profile="vim ~/.bash_profile"
 alias sshmylink='ssh webadmin@mylink.byu.edu'
 alias sshmylinkdb='ssh dbadmin@10.18.12.5'
+alias sshcapstone='ssh root@192.168.246.5'
+alias sshnursing='ssh -p 44625 root@it.et.byu.edu'
 alias www='cd /Library/WebServer/Documents'
 alias msg="vim Dropbox/Shared\ Folders/RAW/.msg"
 # http://bit.ly/igCErk
 alias m='mvim --remote-silent'
-
-
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
